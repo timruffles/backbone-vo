@@ -137,6 +137,14 @@ var derivedVersionOfValue = aValueObject.derive({field: "newValue"})
 
 Instance method that returns a new value object with field values taken by preference from newValuesMap, with any missing fields taken from the existing value object `derive` is called on.
 
+#### vo#eql
+
+```javascript
+voA.eql(voB);
+```
+
+`eql()` returns true when passed another value object of the same type with the same values for all fields. It works recursively, so you can have value objects that themselves contain value objects.
+
 ## Running the tests
 
 To verify the logic works quickly, you can run the test suite in node.
