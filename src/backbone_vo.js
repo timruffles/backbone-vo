@@ -12,6 +12,13 @@
     })
   }
 
+  ValueObject.modelEql = function(to) {
+    return to.id === this.id && this.constructor === to.constructor
+  }
+  ValueObject.applyPlugin = function(backbone) {
+    backbone.Model.prototype.eql = ValueObject.ModelEql
+  }
+
   ValueObject.prototype = {
     eql: function(to) {
       if(!to || !(typeof to.get == "function")) return false
