@@ -28,6 +28,8 @@ var b = new Point(0,0);
 assert( a.eql(b) ); // succeeds - follows value semantics
 ```
 
+BackboneVo gives access to fields via a `get()` method to fit naturally into Backbone apps. It also provides a `set()` method, but this simply throws an error to remind you it's a value object, or to let developers who've not learned about them know how to use them.
+
 ## Install
 
 values-backbone supports require.js and other AMD loaders, or you can simply include it as normal and it'll define `window.BackboneVo`.
@@ -79,7 +81,7 @@ assert( today.timestamp() === MutableDateLibrary.today().timestamp() );
 
 This [really happens](http://arshaw.com/xdate/#Adding), and we've probably all made something that should be a value type mutable. The above is equally true for: intervals, ranges, dates and sets of any type.
 
-Value objects created by BackboneVo are immutable - you can't change fields in ES5, and trying to do so in strict mode will raise an exception. If your unit tests enforce immutable use of your value objects, your application will be correct even in non ES5 environments.
+Value objects created by BackboneVo are immutable.
 
 ## Mixin
 
