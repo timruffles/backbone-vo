@@ -1,6 +1,6 @@
 # BackboneVo
 
-Values is a library for improving your application code by adding value semantics. Lots of concepts in our apps don't have a specific 'identity' - for instance every `new Point({x: 0, y: 0})` is conceptually the same point. It's more natural if these concepts uphold these value semantics in our code, namely that ["two value objects are equal if all their fields are equal"](http://martinfowler.com/bliki/ValueObject.html). But by default in Javascript object equality is based on identity, so:
+BackboneVo is a library for improving your application code by adding value semantics. Lots of concepts in our apps don't have a specific 'identity' - for instance every `new Point({x: 0, y: 0})` is conceptually the same point. It's more natural if these concepts uphold these value semantics in our code, namely that ["two value objects are equal if all their fields are equal"](http://martinfowler.com/bliki/ValueObject.html). But by default in Javascript object equality is based on identity, so:
 
 ```javascript
 
@@ -15,7 +15,7 @@ var b = new Point(0,0);
 assert( a == b ); // fails - based on object identity
 ```
 
-In contrast, Values adds an `eql()` method to allow us to compare two value objects based on their value:
+BackboneVo uses an `eql()` method to allow us to compare two value objects based on their value:
 
 ```javascript
 function Point() {
@@ -79,7 +79,7 @@ assert( today.timestamp() === MutableDateLibrary.today().timestamp() );
 
 This [really happens](http://arshaw.com/xdate/#Adding), and we've probably all made something that should be a value type mutable. The above is equally true for: intervals, ranges, dates and sets of any type.
 
-Value objects created by Values are immutable - you can't change fields in ES5, and trying to do so in strict mode will raise an exception. If your unit tests enforce immutable use of your value objects, your application will be correct even in non ES5 environments.
+Value objects created by BackboneVo are immutable - you can't change fields in ES5, and trying to do so in strict mode will raise an exception. If your unit tests enforce immutable use of your value objects, your application will be correct even in non ES5 environments.
 
 ## Mixin
 
