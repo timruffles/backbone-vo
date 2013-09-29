@@ -91,7 +91,7 @@ Rather than requiring you to use a subclassing mechanism, values-backbone lets y
 var Period = function() {
   this.check(arguments)
 };
-vo.setupPrototype(Period,periodFields)
+BackboneVo.augment(Period,"from","to")
 ```
 
 ## 'Changing' a value via `derive`
