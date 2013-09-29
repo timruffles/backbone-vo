@@ -1,0 +1,16 @@
+{
+  "name": "backbone-vo",
+  "version": "0.0.1",
+  "author": "Tim Ruffles <timruffles@gmail.com>",
+  "description": "Implementation of ValueObjects for Backbone",
+  "keywords": ["value objects","values","immutable","oop","backbone"],
+  "devDependencies": {
+    "mocha": "> 0",
+    "mocha-phantomjs": "> 0"
+  },
+  "repository": "git@github.com:timruffles/values-backbone.git",
+  "files": [
+    "src/values_backbone"
+  ],
+  "main": "src/values_backbone"
+}

@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Values test suite</title>
+    <link rel="stylesheet" href="test/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="test/mocha.js"></script>
+    <script>
+      mocha.ui('tdd');
+      mocha.reporter('html');
+    </script>
+    <script src="vendor/underscore.js"></script>
+    <script src="test/assert.js"></script>
+    <script src="src/backbone_vo.js"></script>
+    <script>
+      
+    </script>
+    <script src="test/backbone_vo_test.js"></script>
+    <script>
+      if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      else { mocha.run(); }
+    </script>
+  </body>
+</html>
