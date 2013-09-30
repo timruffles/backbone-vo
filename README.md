@@ -35,12 +35,16 @@ var b = new Point(0,0);
 assert( a.eql(b) ); // succeeds - follows value semantics
 ```
 
-Towards preventing changes to our values, we could use the ES5 `Object.defineProperty` to make an object with non-writable properties, but it'd confusing to have half our objects in Backbone using `get()` and the values using normal properties. So BackboneVo gives access to fields via a `get()` method. It also provides a `set()` method, but this simply throws an error to remind you it's a value object, or to help developers who've not learned about.
+Towards preventing changes to our values, we could use the ES5 `Object.defineProperty` to make an object with non-writable properties, but it'd confusing to have half our objects in Backbone using `get()` and the values using normal properties. So BackboneVo gives access to fields via a `get()` method. It also provides a `set()` method, but this simply throws an error to remind you it's a value object, or to help developers who've not learned about them.
 
 
 ## Install
 
-values-backbone supports require.js and other AMD loaders, or you can simply include it as normal and it'll define `window.BackboneVo`.
+values-backbone supports require.js and other AMD loaders, or you can simply include it as normal and it'll define `window.BackboneVo`. If you want an `eql()` method on `Backbone.Model` too ([why](#model-eql)), you can run: 
+
+```javascript
+BackboneVo.applyPlugin(Backbone)
+```
 
 <div id=equality></div>
 
@@ -73,6 +77,10 @@ var b = new Line(19,19,  20,20);
 
 assert( a > b );
 ```
+
+<div id=model-eql></div>
+
+### `Model#eql()`
 
 BackboneVo supplies an `eql()` implementation for `Backbone.Model` too - this again allows more natural interoperability. Either set `Backbone.Model.prototype.eql = BackboneVo.modelEql`, or run `BackboneVo.applyPlugin(Backbone)`. `eql()` for models checks for equality of `id` and `constructor`.
 
