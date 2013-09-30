@@ -5,7 +5,7 @@ BackboneVo is a library for improving your application code by adding the concep
 1. ["two value objects are equal if all their fields are equal"](http://martinfowler.com/bliki/ValueObject.html)
 2. value objects can't be changed once created
 
-You'll notice lots of things should behave like this: everything involving time, numbers, strings etc.
+You'll notice lots of things should behave like this: everything involving time, numbers, strings etc. There's a longer discussion of [equality](#equality) and [change](#immutability) below.
 
 By default in Javascript object equality is based on identity, so we don't get value-like equality for free:
 
@@ -42,7 +42,9 @@ Towards preventing changes to our values, we could use the ES5 `Object.definePro
 
 values-backbone supports require.js and other AMD loaders, or you can simply include it as normal and it'll define `window.BackboneVo`.
 
-## Value semantics
+<div id=equality></div>
+
+## Value based equality
 
 So values should be comparable by value. `valueOf` is the method JS gives us to control how our objects are compared, but unfortunately it doesn't work for `==` and `===`, only the inequality operators. Equality operations for objects are always based on identity. Values.js works around this by ensuring the same object is returned for the same arguments to a value object constructor.
 
@@ -74,9 +76,11 @@ assert( a > b );
 
 BackboneVo supplies an `eql()` implementation for `Backbone.Model` too - this again allows more natural interoperability. Either set `Backbone.Model.prototype.eql = BackboneVo.modelEql`, or run `BackboneVo.applyPlugin(Backbone)`. `eql()` for models checks for equality of `id` and `constructor`.
 
+<div id=immutability></div>
+
 ## Values don't change
 
-It [should not be possible](http://c2.com/cgi/wiki?ValueObjectsShouldBeImmutable) to change value objects (the fancy word for this is 'immutable', as in can't mutate/change). Like numbers, it doesn't make sense to 'change' (mutate) a value, you simply have a totally different value. Allowing values to change in place leads to confusing code:
+It [should not be possible](http://c2.com/cgi/wiki?ValueObjectsShouldBeImmutable) to change value objects (fancy version: 'immutable', as in can't mutate/change). Like numbers, it doesn't make sense to 'change' (mutate) a value, you simply have a totally different value. Allowing values to change in place leads to confusing code:
 
 ```javascript
 var today = MutableDateLibrary.today();
@@ -91,7 +95,7 @@ assert( today.timestamp() === MutableDateLibrary.today().timestamp() );
 
 This [really happens](http://arshaw.com/xdate/#Adding), and we've probably all made something that should be a value type mutable. The above is equally true for: intervals, ranges, dates and sets of any type.
 
-Value objects created by BackboneVo are immutable.
+Value objects created by BackboneVo are immutable - you can only access fields via `get()`, and their values are safely stored inside a closure, inaccessible to the outside world.
 
 ## Mixin
 
