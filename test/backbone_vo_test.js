@@ -11,6 +11,37 @@ describe("vo.Backbone", function(){
   }
   BackboneVo.augment(MessageParticipants,"from","to")
 
+  function CorrectlyConstructed() {
+    this.check(arguments)
+    this.get("a").toString()
+  }
+  BackboneVo.augment(CorrectlyConstructed,"a")
+
+  function IncorrectlyConstructed() {
+    this.get("a")
+  }
+  BackboneVo.augment(IncorrectlyConstructed,"a")
+  
+
+  it("check allows access to VO get() api after check",function() {
+    assert.doesNotThrow(function() {
+      new CorrectlyConstructed("a")
+    })
+  })
+
+  it("check allows access to VO get() api after derive",function() {
+    assert.doesNotThrow(function() {
+      var a = new CorrectlyConstructed("a")
+      var b = a.derive({a:"b"})
+    })
+  })
+
+  it("throws error if get() is used before check()",function() {
+    assert.throws(function() {
+      new IncorrectlyConstructed("a")
+    })
+  })
+
   _.each(["reusing instances","fresh instances"],function(instanceContext) {
 
     var reusingInstances = instanceContext === "reusing instances"
