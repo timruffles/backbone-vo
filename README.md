@@ -5,7 +5,7 @@ BackboneVo is a library for improving your application code by adding the concep
 1. ["two value objects are equal if all their fields are equal"](http://martinfowler.com/bliki/ValueObject.html)
 2. value objects can't be changed once created
 
-You'll notice lots of things should behave like this: everything involving time, numbers, strings etc. There's a longer discussion of [equality](#equality) and [change](#immutability) below.
+You'll notice lots of things should behave like this: everything involving time, numbers, strings etc. There's a longer discussion of [equality](#value-based-equality) and [change](#values-dont-change) below.
 
 By default in Javascript object equality is based on identity, so we don't get value-like equality for free:
 
@@ -40,13 +40,11 @@ Towards preventing changes to our values, we could use the ES5 `Object.definePro
 
 ## Install
 
-values-backbone supports require.js and other AMD loaders, or you can simply include it as normal and it'll define `window.BackboneVo`. If you want an `eql()` method on `Backbone.Model` too ([why](#model-eql)), you can run: 
+values-backbone supports require.js and other AMD loaders, or you can simply include it as normal and it'll define `window.BackboneVo`. If you want an `eql()` method on `Backbone.Model` too ([why](#modeleql)), you can run: 
 
 ```javascript
 BackboneVo.applyPlugin(Backbone)
 ```
-
-<div id=equality></div>
 
 ## Value based equality
 
@@ -78,13 +76,9 @@ var b = new Line(19,19,  20,20);
 assert( a > b );
 ```
 
-<div id=model-eql></div>
-
 ### `Model#eql()`
 
 BackboneVo supplies an `eql()` implementation for `Backbone.Model` too - this again allows more natural interoperability. Either set `Backbone.Model.prototype.eql = BackboneVo.modelEql`, or run `BackboneVo.applyPlugin(Backbone)`. `eql()` for models checks for equality of `id` and `constructor`.
-
-<div id=immutability></div>
 
 ## Values don't change
 
