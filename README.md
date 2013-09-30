@@ -1,6 +1,13 @@
 # BackboneVo
 
-BackboneVo is a library for improving your application code by adding value semantics. Lots of concepts in our apps don't have a specific 'identity' - for instance every `new Point({x: 0, y: 0})` is conceptually the same point. It's more natural if these concepts uphold these value semantics in our code, namely that ["two value objects are equal if all their fields are equal"](http://martinfowler.com/bliki/ValueObject.html). But by default in Javascript object equality is based on identity, so:
+BackboneVo is a library for improving your application code by adding the concept of values. Lots of concepts in our apps don't have a specific 'identity' - for instance every `new Point({x: 0, y: 0})` is conceptually the same point. It's more natural if these concepts work like values, namely:
+
+1. ["two value objects are equal if all their fields are equal"](http://martinfowler.com/bliki/ValueObject.html)
+2. value objects can't be changed once created
+
+You'll notice lots of things should behave like this: everything involving time, numbers, strings etc.
+
+By default in Javascript object equality is based on identity, so we don't get value-like equality for free:
 
 ```javascript
 
@@ -21,14 +28,15 @@ BackboneVo uses an `eql()` method to allow us to compare two value objects based
 function Point() {
   this.check(arguments)
 }
-BackboneVo.augment(Point,"x","y");
+BackboneVo.mixin(Point,"x","y");
 var a = new Point(0,0);
 var b = new Point(0,0);
 
 assert( a.eql(b) ); // succeeds - follows value semantics
 ```
 
-BackboneVo gives access to fields via a `get()` method to fit naturally into Backbone apps. It also provides a `set()` method, but this simply throws an error to remind you it's a value object, or to let developers who've not learned about them know how to use them.
+Towards preventing changes to our values, we could use the ES5 `Object.defineProperty` to make an object with non-writable properties, but it'd confusing to have half our objects in Backbone using `get()` and the values using normal properties. So BackboneVo gives access to fields via a `get()` method. It also provides a `set()` method, but this simply throws an error to remind you it's a value object, or to help developers who've not learned about.
+
 
 ## Install
 
@@ -52,7 +60,7 @@ If your value object can meaningfully use the inequality operators `<`, `>` - fo
 function Line() {
   this.check(arguments)
 }
-BackboneVo.augment(Line,"x1","y1","x2","y2");
+BackboneVo.mixin(Line,"x1","y1","x2","y2");
 Line.prototype.valueOf = function() {
   // Pythagorus' theorem
   return Math.sqrt( Math.pow(this.y2 - this.y1,2) + Math.pow(this.x2 - this.x1,2) );
@@ -66,9 +74,9 @@ assert( a > b );
 
 BackboneVo supplies an `eql()` implementation for `Backbone.Model` too - this again allows more natural interoperability. Either set `Backbone.Model.prototype.eql = BackboneVo.modelEql`, or run `BackboneVo.applyPlugin(Backbone)`. `eql()` for models checks for equality of `id` and `constructor`.
 
-## Immutability
+## Values don't change
 
-ValueObjects [should be immutable](http://c2.com/cgi/wiki?ValueObjectsShouldBeImmutable). Like numbers, it doesn't make sense to 'change' (mutate) a value, you simply have a new one. Allowing values to change in place leads to confusing semantics:
+It [should not be possible](http://c2.com/cgi/wiki?ValueObjectsShouldBeImmutable) to change value objects (the fancy word for this is 'immutable', as in can't mutate/change). Like numbers, it doesn't make sense to 'change' (mutate) a value, you simply have a totally different value. Allowing values to change in place leads to confusing code:
 
 ```javascript
 var today = MutableDateLibrary.today();
@@ -87,13 +95,13 @@ Value objects created by BackboneVo are immutable.
 
 ## Mixin
 
-Rather than requiring you to use a subclassing mechanism, values-backbone lets you setup your constructor & prototype as normal, and use `BackboneVo.augment` to mixin value object behaviour into your prototype. Just make sure you call `check()` on your constructor arguments and you're away - you can easily mix this into existing types.
+Rather than requiring you to use a subclassing mechanism, values-backbone lets you setup your constructor & prototype as normal, and use `BackboneVo.mixin` to mixin value object behaviour into your prototype. Just make sure you call `check()` on your constructor arguments and you're away - you can easily mix this into existing types.
 
 ```javascript
 var Period = function() {
   this.check(arguments)
 };
-BackboneVo.augment(Period,"from","to")
+BackboneVo.mixin(Period,"from","to")
 ```
 
 ## 'Changing' a value via `derive`

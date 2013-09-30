@@ -4,23 +4,23 @@ describe("vo.Backbone", function(){
   function Period() {
     this.check(arguments)
   }
-  BackboneVo.augment(Period,"from","to")
+  BackboneVo.mixin(Period,"from","to")
 
   function MessageParticipants() {
     this.check(arguments)
   }
-  BackboneVo.augment(MessageParticipants,"from","to")
+  BackboneVo.mixin(MessageParticipants,"from","to")
 
   function CorrectlyConstructed() {
     this.check(arguments)
     this.get("a").toString()
   }
-  BackboneVo.augment(CorrectlyConstructed,"a")
+  BackboneVo.mixin(CorrectlyConstructed,"a")
 
   function IncorrectlyConstructed() {
     this.get("a")
   }
-  BackboneVo.augment(IncorrectlyConstructed,"a")
+  BackboneVo.mixin(IncorrectlyConstructed,"a")
   
 
   it("check allows access to VO get() api after check",function() {

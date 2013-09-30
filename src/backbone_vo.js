@@ -4,7 +4,7 @@
     this["-keys"] = [].slice.call(arguments)
   }
 
-  ValueObject.augment = function(type) {
+  ValueObject.mixin = function(type) {
     _.extend(type.prototype,ValueObject.prototype,{
       "-keys": [].slice.call(arguments,1)
     })
